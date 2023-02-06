@@ -34,13 +34,11 @@ func WeiXinHandler(c *gin.Context) {
 	//server.SkipValidate(true)
 	// 设置接收消息的处理方法
 	server.SetMessageHandler(func(msg *message.MixMessage) *message.Reply {
-		var s string
 		// 回复消息：演示回复用户发送的消息
 		logrus.Info("xxxxxxxxxx:", msg.Content)
-		s = DoGPTRequest(msg.Content)
+		s := DoGPTRequest(msg.Content)
 		return &message.Reply{MsgType: message.MsgTypeText, MsgData: message.NewText(s)}
 	})
-
 	// 处理消息接收以及回复
 	err := server.Serve()
 	if err != nil {

@@ -7,11 +7,16 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 const (
-	GptToken = "sk-token"
+	GptToken = "xxx"
 )
+
+func init() {
+	http.DefaultClient.Timeout = 4900 * time.Millisecond
+}
 
 func DoGPTRequest(d string) string {
 	req := newGptRequest(d)
@@ -32,8 +37,8 @@ func newGptRequest(d string) *http.Request {
 	p := payload{
 		Model:       "text-davinci-003",
 		Prompt:      d,
-		Temperature: 0.2,
-		MaxTokens:   1500,
+		Temperature: 0,
+		MaxTokens:   1000,
 	}
 	bs, err := json.Marshal(p)
 	if err != nil {
